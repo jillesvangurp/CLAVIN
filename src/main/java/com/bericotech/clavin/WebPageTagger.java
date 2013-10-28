@@ -60,7 +60,7 @@ public class WebPageTagger {
     }
 
     public List<ResolvedLocation> parse(String url) throws Exception {
-        LOG.info("fetching {}" + url);
+        LOG.info("fetching {}", url);
         String html = fetchHtml(url);
 
         if(html != null) {
@@ -83,11 +83,16 @@ public class WebPageTagger {
         GeoParser parser = GeoParserFactory.getDefault("./IndexDirectory");
         WebPageTagger urlTagger = new WebPageTagger(httpClient, parser);
 
-        String url = "http://www.welt.de/politik/wahl/bundestagswahl/article120536288/Zaghafte-Vitalfunktionen-auf-der-Intensivstation.html";
-        List<ResolvedLocation> resolvedLocations = urlTagger.parse(url);
+        String url;
+        if(args.length > 0) {
+            url=args[0];
+            List<ResolvedLocation> resolvedLocations = urlTagger.parse(url);
 
-        for (ResolvedLocation resolvedLocation : resolvedLocations) {
-            System.out.println(resolvedLocation);
+            for (ResolvedLocation resolvedLocation : resolvedLocations) {
+                System.out.println(resolvedLocation);
+            }
+        } else {
+            System.err.println("Please provide a url as the first parameter.");
         }
     }
 }
